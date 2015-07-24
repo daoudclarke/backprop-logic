@@ -1,0 +1,34 @@
+-- Represent logical sentences as torch networks
+require 'torch'
+require 'nn'
+require 'Term'
+
+
+function get_network(num_entities)
+   -- a dog chased bill
+   -- exists(x, dog(x), exists(y, bill(y), chase(x, y)))
+   
+   local bill = nn.Linear(num_entities)
+   local dog = nn.Linear(num_entities)
+   local chase = nn.Linea
+
+   local model = nn.Sequential()
+   model:add( nn.SparseLinear(num_features, 1000) )
+
+   model:add( nn.ReLU() )
+   model:add( nn.Dropout() )
+   model:add( nn.Linear(1000, 100) ) 
+
+   model:add( nn.ReLU() )
+   model:add( nn.Dropout() )
+   model:add( nn.Linear(100, 2) ) 
+
+   model:add( nn.LogSoftMax() )
+   
+   return model
+end
+
+
+
+local term = Term(5)
+print(term.weight)
