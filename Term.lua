@@ -26,7 +26,7 @@ end
 
 function Term:updateOutput(input)
    self.output = self.weight   
-   print("Output:", self.output)
+   -- print("Output:", self.output)
    return self.output
 end
 
@@ -60,6 +60,7 @@ end
 -- end
 
 function Term:accGradParameters(input, gradOutput, scale)
+   -- print("Grad output:", gradOutput)
    scale = scale or 1
    self.gradWeight:add(-1*scale, gradOutput)
 
@@ -96,3 +97,6 @@ function Term:type(type)
 end
 
 
+function Term.__tostring__(self)
+   return tostring(self.weight)
+end
