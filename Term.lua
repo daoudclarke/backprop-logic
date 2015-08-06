@@ -24,36 +24,10 @@ function Term:reset(stdv)
    self.weight:uniform(-stdv,stdv)
 end
 
--- function Term:updateOutput(input)
---    -- lazy-initialize
---    self._output = self._output or input.new()
---    self._weight = self._weight or input.new()
---    self._expand = self._expand or input.new()
---    self._repeat = self._repeat or input.new()
-   
---    self.output:resizeAs(input):copy(input)
---    if input:nElement() == self.weight:nElement() then
---       self._output:view(self.output, -1)
---       self._weight:view(self.weight, -1)
-      
---       self._output:cmul(self._weight)
---    else
---       local batchSize = input:size(1)
---       self._output:view(self.output, batchSize, -1)
---       self._weight:view(self.weight, 1, -1)
-      
---       self._expand:expandAs(self._weight, self._output)
-      
---       if torch.type(input) == 'torch.CudaTensor' then
---          self._repeat:resizeAs(self._expand):copy(self._expand)
---          self._output:cmul(self._repeat)
---       else
---          self._output:cmul(self._expand)
---       end
---    end
-   
---    return self.output
--- end
+function Term:updateOutput(input)
+   self.output = self.weight   
+   return self.output
+end
 
 -- function Term:updateGradInput(input, gradOutput)
 --    if not self.gradInput then
@@ -86,23 +60,25 @@ end
 
 function Term:accGradParameters(input, gradOutput, scale)
    scale = scale or 1
+   self.gradWeight:add(-1*scale, gradOutput)
+
    
-   self._input = self._input or input.new()
-   self._gradWeight = self._gradWeight or input.new()
-   self._sum = self._sum or input.new()
+   -- self._input = self._input or input.new()
+   -- self._gradWeight = self._gradWeight or input.new()
+   -- self._sum = self._sum or input.new()
    
-   if self.weight:nElement() == gradOutput:nElement() then
-      self.gradWeight:addcmul(scale, input, gradOutput)
-   else
-      local batchSize = input:size(1)
-      self._input:view(input, batchSize, -1)
-      self._gradOutput:view(gradOutput, batchSize, -1)
-      self._gradWeight:view(self.gradWeight, 1, -1)
+   -- if self.weight:nElement() == gradOutput:nElement() then
+   --    self.gradWeight:addcmul(scale, input, gradOutput)
+   -- else
+   --    local batchSize = input:size(1)
+   --    self._input:view(input, batchSize, -1)
+   --    self._gradOutput:view(gradOutput, batchSize, -1)
+   --    self._gradWeight:view(self.gradWeight, 1, -1)
       
-      self._repeat:cmul(self._input, self._gradOutput)
-      self._sum:sum(self._repeat, 1)
-      self._gradWeight:add(scale, self._sum)
-   end
+   --    self._repeat:cmul(self._input, self._gradOutput)
+   --    self._sum:sum(self._repeat, 1)
+   --    self._gradWeight:add(scale, self._sum)
+   -- end
 end
 
 function Term:type(type)

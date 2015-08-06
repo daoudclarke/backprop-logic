@@ -5,25 +5,24 @@ require 'Term'
 
 
 function get_network(num_entities)
-   -- a dog chased bill
-   -- exists(x, dog(x), exists(y, bill(y), chase(x, y)))
-   
-   local bill = nn.Linear(num_entities)
-   local dog = nn.Linear(num_entities)
-   local chase = nn.Linea
+   -- bill(x) & run(x)
+
+   local bill = Term(num_entities)
+   local run = Term(num_entities)
+
+   local p = nn.ParallelTable()
+   p:add(bill)
+   p:add(run)
 
    local model = nn.Sequential()
-   model:add( nn.SparseLinear(num_features, 1000) )
+   model.add(p)
+   model.add(nn.JoinTable(2))
 
-   model:add( nn.ReLU() )
-   model:add( nn.Dropout() )
-   model:add( nn.Linear(1000, 100) ) 
+   -- conjunction
+   model.add(nn.Min(2))
 
-   model:add( nn.ReLU() )
-   model:add( nn.Dropout() )
-   model:add( nn.Linear(100, 2) ) 
-
-   model:add( nn.LogSoftMax() )
+   -- assert true
+   model.add(nn.Min(1))
    
    return model
 end
@@ -36,3 +35,8 @@ print(term.weight)
 local next = term:forward()
 print(next)
 
+local grad = torch.Tensor(5):fill(1)
+
+term:backward(nil, grad)
+term:updateParameters(0.1)
+print(term.weight)
