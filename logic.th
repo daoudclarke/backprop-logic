@@ -10,26 +10,8 @@ function get_network(bill, run)
 end
 
 
-
--- local term = Term(5)
--- print(term.weight)
-
--- local next = term:forward()
--- print(next)
-
--- local grad = torch.Tensor(5):fill(1)
-
--- term:backward(nil, grad)
--- term:updateParameters(0.1)
--- print(term.weight)
-
 function gradUpdate(mlp, learningRate) 
    local pred = mlp:forward{nil, nil}
-   -- local pred = mlp:forward({torch.Tensor(5), torch.Tensor(5)})
-   -- local err = criterion:forward(pred, y)
-   -- local gradCriterion = criterion:backward(pred, y)
-   -- pred = pred[1]
-   -- print("Pred:", pred[1])
    mlp:zeroGradParameters()
    local grad = torch.zeros(1)
    if pred[1] < 0 then grad[1] = 1.0 end
