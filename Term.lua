@@ -7,8 +7,8 @@ function Term:__init(num_entities)
    
    self.size = num_entities
   
-   self.weight = torch.Tensor(self.size)
-   self.gradWeight = torch.Tensor(self.size)
+   self.weight = torch.Tensor(self.size, 1)
+   self.gradWeight = torch.Tensor(self.size, 1)
    
    self.output:resize(self.size) 
 
@@ -26,6 +26,7 @@ end
 
 function Term:updateOutput(input)
    self.output = self.weight   
+   print("Output:", self.output)
    return self.output
 end
 
