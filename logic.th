@@ -24,6 +24,7 @@ end
 -- Model definition
 local bill = Term(5)
 local run = Term(5)
+local mary = Term(5)
 
 -- exists(x, bill(x) & run(x))
 
@@ -47,16 +48,20 @@ end
 
 
 print("Initial Bill", bill)
+print("Initial Mary", mary)
 print("Initial run", run)
 
 -- model = get_network(bill, run)
-model = get_sentence(bill, run)
+bill_runs = get_sentence(bill, run)
+mary_runs = get_sentence(mary, run)
 for i=1,10 do
-   grad = gradUpdate(model, 0.1)
-   print("Grad", grad)
+   grad1 = gradUpdate(bill_runs, 0.1)
+   grad2 = gradUpdate(mary_runs, 0.1)
+   print("Grad", grad1, grad2)
    print("Min", model_min.output)
-   if grad <= 0 then break end
+   if grad1 <= 0 and grad2 <= 0 then break end
 end
 
 print("Bill", bill)
+print("Mary", mary)
 print("Run", run)
