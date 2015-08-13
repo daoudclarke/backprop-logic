@@ -35,6 +35,19 @@ Mary		Term(0.045865, 0.001869, -0.210560, -0.219520, -0.264111)
 Run		Term(-0.305898, 0.071932, -0.446399, -0.414933, 0.287786)
 ```
 
+What's happening here?
+----------------------
+
+We are using stochastic gradient descent and backpropagation to find a
+model for three logical sentences, which can be roughly expressed as:
+
+ - Bill runs
+ - Mary runs
+ - Bill and Mary are different people
+
+These three sentences are currently hard coded in the `logic.lua`
+file. The model is expressed as three vectors, one for each of `bill`,
+`mary` and `run`.
 
 Backpropagation for Model Building
 ==================================
