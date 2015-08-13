@@ -8,7 +8,7 @@ function gradUpdate(mlp, learningRate)
    local pred = mlp:forward{nil, nil}
    mlp:zeroGradParameters()
    local grad = torch.zeros(1)
-   if pred[1] < 0 then grad[1] = 1.0 end
+   if pred[1] < 0 then grad[1] = 1.0 else grad[1] = -0.1 end
    mlp:backward({nil, nil}, grad)
    mlp:updateParameters(learningRate)
    return grad[1]
@@ -20,11 +20,11 @@ local bill = Term(5)
 local run = Term(5)
 local mary = Term(5)
 
--- exists(x, np(x) & vp(x))
-function get_sentence(np, vp)
+-- exists(x, pred1(x) & pred2(x))
+function get_sentence(pred1, pred2)
    local p = nn.ParallelTable()
-   p:add(np)
-   p:add(vp)
+   p:add(pred1)
+   p:add(pred2)
 
    local model = nn.Sequential()
    model:add(p)
@@ -50,17 +50,16 @@ mary_runs = get_sentence(mary, run)
 not_bill_and_mary = get_sentence(bill, mary)
 not_bill_and_mary:add(Neg())
 local sentences = {bill_runs, mary_runs, not_bill_and_mary}
-for i=1,100 do
+for i=1,1000 do
    permutation = torch.randperm(#sentences)
-   print("Perm: ", permutation)
    max_grad = -1
    for j=1,#sentences do
       grad = gradUpdate(sentences[permutation[j]], 0.1)
-      print("Sentence, grad", permutation[j], grad)
+      print("Iteration:", i, "Sentence:", permutation[j], "grad:", grad)
       if grad > max_grad then max_grad = grad end
    end
    -- print("Min", model_min.output)
-   if max_grad <= 0 then break end
+   if max_grad <= 0.0 then break end
 end
 
 print("Bill", bill)

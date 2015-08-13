@@ -49,5 +49,10 @@ end
 
 
 function Term.__tostring__(self)
-   return tostring(self.weight)
+   local values = ''
+   for i=1,self.size do
+      values = values .. string.format("%f", self.weight[i][1])
+      if i < self.size then values = values .. ', ' end
+   end
+   return "Term(" .. values .. ")"
 end

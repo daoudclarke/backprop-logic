@@ -1,3 +1,41 @@
+Quick Start
+===========
+
+This requires [torch](http://torch.ch/docs/getting-started.html). Once
+installed, run `th logic.th`. You should see output that looks
+something like:
+
+```
+Initial Bill	Term(-0.049130, -0.285756, 0.425711, 0.144995, -0.340230)
+Initial Mary	Term(0.045865, 0.041869, -0.210560, -0.219520, -0.264111)
+Initial run	Term(-0.305898, -0.128068, -0.446399, -0.414933, 0.287786)
+Iteration:	1		Sentence:  1	      grad:	 1	
+Iteration:	1		Sentence:  2	      grad:	 1	
+Iteration:	1		Sentence:  3	      grad:	 -0.1	
+Iteration:	2		Sentence:  1	      grad:	 1	
+Iteration:	2		Sentence:  3	      grad:	 -0.1	
+Iteration:	2		Sentence:  2	      grad:	 1	
+Iteration:	3		Sentence:  3	      grad:	 -0.1	
+Iteration:	3		Sentence:  2	      grad:	 -0.1	
+Iteration:	3		Sentence:  1	      grad:	 1	
+Iteration:	4		Sentence:  2	      grad:	 -0.1	
+Iteration:	4		Sentence:  1	      grad:	 -0.1	
+Iteration:	4		Sentence:  3	      grad:	 1	
+Iteration:	5		Sentence:  1	      grad:	 1	
+Iteration:	5		Sentence:  3	      grad:	 1	
+Iteration:	5		Sentence:  2	      grad:	 -0.1	
+Iteration:	6		Sentence:  2	      grad:	 -0.1	
+Iteration:	6		Sentence:  3	      grad:	 -0.1	
+Iteration:	6		Sentence:  1	      grad:	 1	
+Iteration:	7		Sentence:  1	      grad:	 -0.1	
+Iteration:	7		Sentence:  2	      grad:	 -0.1	
+Iteration:	7		Sentence:  3	      grad:	 -0.1	
+Bill		Term(-0.009130, -0.005756, 0.425711, 0.144995, -0.340230)
+Mary		Term(0.045865, 0.001869, -0.210560, -0.219520, -0.264111)
+Run		Term(-0.305898, 0.071932, -0.446399, -0.414933, 0.287786)
+```
+
+
 Backpropagation for Model Building
 ==================================
 
