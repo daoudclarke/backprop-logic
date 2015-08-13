@@ -2,13 +2,7 @@
 require 'torch'
 require 'nn'
 require 'Term'
-
-
-function get_network(bill, run)
-   
-   return model
-end
-
+require 'Neg'
 
 function gradUpdate(mlp, learningRate) 
    local pred = mlp:forward{nil, nil}
@@ -26,8 +20,7 @@ local bill = Term(5)
 local run = Term(5)
 local mary = Term(5)
 
--- exists(x, bill(x) & run(x))
-
+-- exists(x, np(x) & vp(x))
 function get_sentence(np, vp)
    local p = nn.ParallelTable()
    p:add(np)
@@ -54,12 +47,20 @@ print("Initial run", run)
 -- model = get_network(bill, run)
 bill_runs = get_sentence(bill, run)
 mary_runs = get_sentence(mary, run)
-for i=1,10 do
-   grad1 = gradUpdate(bill_runs, 0.1)
-   grad2 = gradUpdate(mary_runs, 0.1)
-   print("Grad", grad1, grad2)
-   print("Min", model_min.output)
-   if grad1 <= 0 and grad2 <= 0 then break end
+not_bill_and_mary = get_sentence(bill, mary)
+not_bill_and_mary:add(Neg())
+local sentences = {bill_runs, mary_runs, not_bill_and_mary}
+for i=1,100 do
+   permutation = torch.randperm(#sentences)
+   print("Perm: ", permutation)
+   max_grad = -1
+   for j=1,#sentences do
+      grad = gradUpdate(sentences[permutation[j]], 0.1)
+      print("Sentence, grad", permutation[j], grad)
+      if grad > max_grad then max_grad = grad end
+   end
+   -- print("Min", model_min.output)
+   if max_grad <= 0 then break end
 end
 
 print("Bill", bill)
