@@ -27,26 +27,30 @@ local run = Term(5)
 
 -- exists(x, bill(x) & run(x))
 
-local p = nn.ParallelTable()
-p:add(bill)
-p:add(run)
+function get_sentence(np, vp)
+   local p = nn.ParallelTable()
+   p:add(np)
+   p:add(vp)
 
-local model = nn.Sequential()
-model:add(p)
-model:add(nn.JoinTable(2))
+   local model = nn.Sequential()
+   model:add(p)
+   model:add(nn.JoinTable(2))
 
--- conjunction
-model_min = nn.Min(2)
-model:add(model_min)
+   -- conjunction
+   model_min = nn.Min(2)
+   model:add(model_min)
 
--- existance
-model:add(nn.Max(1))
+   -- existence
+   model:add(nn.Max(1))
+   return model
+end
 
 
 print("Initial Bill", bill)
 print("Initial run", run)
 
 -- model = get_network(bill, run)
+model = get_sentence(bill, run)
 for i=1,10 do
    grad = gradUpdate(model, 0.1)
    print("Grad", grad)
