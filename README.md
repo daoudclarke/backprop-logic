@@ -21,6 +21,7 @@ Iteration:	3		Sentence:  2	     grad:	0
 Iteration:	4		Sentence:  3	     grad:	1	
 Iteration:	4		Sentence:  1	     grad:	0	
 Iteration:	4		Sentence:  2	     grad:	1	
+Found satisfying model
 Bill		Term(-0.020758, -0.002551, 0.137401, -0.057877, -0.050278)
 Mary		Term(0.443954, 0.325557, -0.094755, -0.380538, 0.273569)
 Run		Term(-0.152070, 0.065907, 0.310034, -0.044150, -0.113796)

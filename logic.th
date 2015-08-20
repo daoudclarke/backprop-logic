@@ -57,7 +57,6 @@ print("Initial Bill", bill)
 print("Initial Mary", mary)
 print("Initial run", run)
 
--- model = get_network(bill, run)
 bill_runs = get_sentence(bill, run)
 mary_runs = get_sentence(mary, run)
 not_bill_and_mary = get_sentence(bill, mary)
@@ -65,17 +64,19 @@ not_bill_and_mary:add(Neg())
 local sentences = {bill_runs, mary_runs, not_bill_and_mary}
 for i=1,100 do
    permutation = torch.randperm(#sentences)
-   local grad = 0
-   for j=1,#sentences do
-      if i % d == 0 then
-	 randomUpdate{bill, mary, run}
-      else
+   if i % d == 0 then
+      randomUpdate{bill, mary, run}
+      print("Iteration:", i, "re-initialising")
+   else
+      for j=1,#sentences do
 	 grad = gradUpdate(sentences[permutation[j]], 0.1)
+	 print("Iteration:", i, "Sentence:", permutation[j], "grad:", grad)
       end
-      print("Iteration:", i, "Sentence:", permutation[j], "grad:", grad)
    end
-   -- print("Min", model_min.output)
-   if satisfied(sentences) then break end
+   if satisfied(sentences) then
+      print "Found satisfying model"
+      break
+   end
 end
 
 print("Bill", bill)
