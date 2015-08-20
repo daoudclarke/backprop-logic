@@ -8,7 +8,7 @@ function gradUpdate(mlp, learningRate)
    local pred = mlp:forward{nil, nil}
    mlp:zeroGradParameters()
    local grad = torch.zeros(1)
-   if pred[1] < 0 then grad[1] = 1.0 else grad[1] = -0.1 end
+   if pred[1] < 0 then grad[1] = 1.0 else grad[1] = 0.0 end
    mlp:backward({nil, nil}, grad)
    mlp:updateParameters(learningRate)
    return grad[1]
