@@ -6,33 +6,24 @@ installed, run `th logic.th`. You should see output that looks
 something like:
 
 ```
-Initial Bill	Term(-0.049130, -0.285756, 0.425711, 0.144995, -0.340230)
-Initial Mary	Term(0.045865, 0.041869, -0.210560, -0.219520, -0.264111)
-Initial run	Term(-0.305898, -0.128068, -0.446399, -0.414933, 0.287786)
-Iteration:	1		Sentence:  1	      grad:	 1	
-Iteration:	1		Sentence:  2	      grad:	 1	
-Iteration:	1		Sentence:  3	      grad:	 -0.1	
-Iteration:	2		Sentence:  1	      grad:	 1	
-Iteration:	2		Sentence:  3	      grad:	 -0.1	
-Iteration:	2		Sentence:  2	      grad:	 1	
-Iteration:	3		Sentence:  3	      grad:	 -0.1	
-Iteration:	3		Sentence:  2	      grad:	 -0.1	
-Iteration:	3		Sentence:  1	      grad:	 1	
-Iteration:	4		Sentence:  2	      grad:	 -0.1	
-Iteration:	4		Sentence:  1	      grad:	 -0.1	
-Iteration:	4		Sentence:  3	      grad:	 1	
-Iteration:	5		Sentence:  1	      grad:	 1	
-Iteration:	5		Sentence:  3	      grad:	 1	
-Iteration:	5		Sentence:  2	      grad:	 -0.1	
-Iteration:	6		Sentence:  2	      grad:	 -0.1	
-Iteration:	6		Sentence:  3	      grad:	 -0.1	
-Iteration:	6		Sentence:  1	      grad:	 1	
-Iteration:	7		Sentence:  1	      grad:	 -0.1	
-Iteration:	7		Sentence:  2	      grad:	 -0.1	
-Iteration:	7		Sentence:  3	      grad:	 -0.1	
-Bill		Term(-0.009130, -0.005756, 0.425711, 0.144995, -0.340230)
-Mary		Term(0.045865, 0.001869, -0.210560, -0.219520, -0.264111)
-Run		Term(-0.305898, 0.071932, -0.446399, -0.414933, 0.287786)
+Initial Bill	Term(-0.020758, 0.297449, 0.137401, -0.057877, -0.050278)
+Initial Mary	Term(0.443954, 0.325557, 0.005245, -0.380538, 0.273569)
+Initial run	Term(-0.152070, -0.034093, 0.310034, -0.044150, -0.113796)
+Iteration:	1		Sentence:  1	     grad:	0	
+Iteration:	1		Sentence:  3	     grad:	1	
+Iteration:	1		Sentence:  2	     grad:	0	
+Iteration:	2		Sentence:  1	     grad:	0	
+Iteration:	2		Sentence:  3	     grad:	1	
+Iteration:	2		Sentence:  2	     grad:	0	
+Iteration:	3		Sentence:  1	     grad:	0	
+Iteration:	3		Sentence:  3	     grad:	1	
+Iteration:	3		Sentence:  2	     grad:	0	
+Iteration:	4		Sentence:  3	     grad:	1	
+Iteration:	4		Sentence:  1	     grad:	0	
+Iteration:	4		Sentence:  2	     grad:	1	
+Bill		Term(-0.020758, -0.002551, 0.137401, -0.057877, -0.050278)
+Mary		Term(0.443954, 0.325557, -0.094755, -0.380538, 0.273569)
+Run		Term(-0.152070, 0.065907, 0.310034, -0.044150, -0.113796)
 ```
 
 What's happening here?
@@ -48,6 +39,16 @@ model for three logical sentences, which can be roughly expressed as:
 These three sentences are currently hard coded in the `logic.lua`
 file. The model is expressed as three vectors, one for each of `bill`,
 `mary` and `run`.
+
+We can view each dimension as corresponding to a different entity. If
+that dimension is positive for a predicate, then we consider it
+"true". For example, initially the second and third entities are
+`bill`. The third one is also `mary` which makes the third sentence
+`false`. We can see that the gradient for the third sentence is 1 on
+each iteration, until finally this sentence is true: in the end
+configuration, only the third entity is `bill`, while the first,
+second and fifth entities are `mary`, and the second and third
+entities have `run` as true.
 
 Backpropagation for Model Building
 ==================================
