@@ -44,7 +44,7 @@ We can view each dimension as corresponding to a different entity. If
 that dimension is positive for a predicate, then we consider it
 "true". For example, initially the second and third entities are
 `bill`. The third one is also `mary` which makes the third sentence
-`false`. We can see that the gradient for the third sentence is 1 on
+false. We can see that the gradient for the third sentence is 1 on
 each iteration, until finally this sentence is true: in the end
 configuration, only the third entity is `bill`, while the first,
 second and fifth entities are `mary`, and the second and third
