@@ -37,8 +37,8 @@ model for three logical sentences, which can be roughly expressed as:
  - Bill and Mary are different people
 
 These three sentences are currently hard coded in the `logic.lua`
-file. The model is expressed as three vectors, one for each of `bill`,
-`mary` and `run`.
+file. The model is expressed as three vectors which we interpret as
+predicates, one for each of `bill`, `mary` and `run`.
 
 We can view each dimension as corresponding to a different entity. If
 that dimension is positive for a predicate, then we consider it
