@@ -21,9 +21,10 @@ function randomUpdate(terms)
 end
 
 -- Model definition
-local bill = Term(5)
-local run = Term(5)
-local mary = Term(5)
+local d = 5
+local bill = Term(d)
+local run = Term(d)
+local mary = Term(d)
 
 -- exists(x, pred1(x) & pred2(x))
 function get_sentence(pred1, pred2)
@@ -64,10 +65,13 @@ not_bill_and_mary:add(Neg())
 local sentences = {bill_runs, mary_runs, not_bill_and_mary}
 for i=1,100 do
    permutation = torch.randperm(#sentences)
-   grad = 0
+   local grad = 0
    for j=1,#sentences do
-      grad = gradUpdate(sentences[permutation[j]], 0.1)
-      -- randomUpdate{bill, mary, run}
+      if i % d == 0 then
+	 randomUpdate{bill, mary, run}
+      else
+	 grad = gradUpdate(sentences[permutation[j]], 0.1)
+      end
       print("Iteration:", i, "Sentence:", permutation[j], "grad:", grad)
    end
    -- print("Min", model_min.output)
