@@ -14,6 +14,11 @@ function gradUpdate(mlp, learningRate)
    return grad[1]
 end
 
+function randomUpdate(terms)
+   for i, term in ipairs(terms) do
+      term:reset()
+   end
+end
 
 -- Model definition
 local bill = Term(5)
@@ -39,6 +44,13 @@ function get_sentence(pred1, pred2)
    return model
 end
 
+function satisfied(sentences)
+   for i, sentence in ipairs(sentences) do
+      local value = sentence:forward{nil, nil}
+      if value[1] < 0 then return false end
+   end
+   return true
+end
 
 print("Initial Bill", bill)
 print("Initial Mary", mary)
@@ -50,16 +62,16 @@ mary_runs = get_sentence(mary, run)
 not_bill_and_mary = get_sentence(bill, mary)
 not_bill_and_mary:add(Neg())
 local sentences = {bill_runs, mary_runs, not_bill_and_mary}
-for i=1,1000 do
+for i=1,100 do
    permutation = torch.randperm(#sentences)
-   max_grad = -1
+   grad = 0
    for j=1,#sentences do
       grad = gradUpdate(sentences[permutation[j]], 0.1)
+      -- randomUpdate{bill, mary, run}
       print("Iteration:", i, "Sentence:", permutation[j], "grad:", grad)
-      if grad > max_grad then max_grad = grad end
    end
    -- print("Min", model_min.output)
-   if max_grad <= 0.0 then break end
+   if satisfied(sentences) then break end
 end
 
 print("Bill", bill)
